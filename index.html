@@ -1,0 +1,38 @@
+<!doctype html>
+
+<meta charset="UTF-8">
+<title></title>
+<style>
+textarea{
+	width:90%;
+	height:5em;
+}
+</style>
+
+<h1>UTF encoder</h1>
+<h2>Plain text</h2>
+<div><textarea id="input"></textarea></div>
+<button>convert</button>
+<h2>Encoded text</h2>
+<div><textarea readonly id="output"></textarea></div>
+
+<script>
+(function(){
+	var i = document.querySelector('#input');
+	var o = document.querySelector('#output');
+	var b = document.querySelector('button');
+
+	b.addEventListener('click', function(){
+		o.value = escapeToUtf16(i.value);
+	});
+
+	function escapeToUtf16(str) {
+	  var escaped = '';
+	  for (var i = 0; i < str.length; ++i) {
+	    var hex = str.charCodeAt(i).toString(16).toUpperCase();
+	    escaped += "\\u" + "0000".substr(hex.length) + hex;
+	  }
+	  return escaped;
+	}
+})();
+</script>
