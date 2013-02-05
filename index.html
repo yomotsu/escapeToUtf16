@@ -25,7 +25,6 @@ section h1{
 <h1>UTF encoder</h1>
 <h2>Plain text (CJK text)</h2>
 <div><textarea id="input" placeholder="input CJK text here"></textarea></div>
-<button>convert!</button>
 <hr>
 <h2>Encoded text</h2>
 <section>
@@ -38,24 +37,27 @@ section h1{
 </section>
 
 <script>
-(function(){
-	var i  = document.querySelector('#input');
-	var o1 = document.querySelector('#output-js');
-	var o2 = document.querySelector('#output-css');
-	var b  = document.querySelector('button');
+( function () {
+  var i  = document.querySelector( '#input' );
+  var o1 = document.querySelector( '#output-js' );
+  var o2 = document.querySelector( '#output-css' );
 
-	b.addEventListener('click', function(){
-		o1.value = escapeToUtf16(i.value, '\\u');
-		o2.value = escapeToUtf16(i.value, '\\');
-	});
+  i.addEventListener( 'keyup', function () {
+    o1.value = escapeToUtf16( i.value, '\\u' );
+    o2.value = escapeToUtf16( i.value, '\\' );
+  });
 
-	function escapeToUtf16(str, prefix) {
-	  var escaped = '';
-	  for (var i = 0; i < str.length; ++i) {
-	    var hex = str.charCodeAt(i).toString(16).toUpperCase();
-	    escaped += prefix + "0000".substr(hex.length) + hex;
-	  }
-	  return escaped;
-	}
-})();
+  function escapeToUtf16( str, prefix ) {
+    var escaped = ' ';
+    for ( var i = 0; i < str.length; ++i ) {
+      if ( /[\x20-\x7E]/.test( str[ i ] ) ) {
+        escaped += str[ i ].toString();
+      } else {
+        var hex = str.charCodeAt( i ).toString( 16 ).toUpperCase();
+        escaped += prefix + "0000".substr( hex.length ) + hex;
+      }
+    }
+    return escaped;
+  }
+} )();
 </script>
